@@ -49,13 +49,13 @@ router.put('/:id', (req, res) => {
 
 // delete a category by its `id` value
 router.delete('/:id', (req, res) => {
-  Category.destroy(req.body, {
+  Category.destroy({
     where: {
       id: req.params.id
     }
   }).then(deletecategory => {
     if (!deletecategory) {
-      res.status(404).json({ message: 'This category does no exist!' });
+      res.status(404).json({ message: 'This category does not exist!' });
       return;
     }
     res.json(deletecategory);
