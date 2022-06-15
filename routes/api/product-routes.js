@@ -94,3 +94,5 @@ router.delete('/:id', (req, res) => {
 });
 
 module.exports = router;
+
+// USE include instead of using where to combine tables together
