@@ -7,7 +7,7 @@ const { Category, Product } = require('../../models');
 // be sure to include its associated Products
 router.get('/', (req, res) => {
   Category.findAll({
-    order: ['category_name'],
+    include: Product,
   })
     .then((categoryData) => {
       res.json(categoryData);
@@ -17,7 +17,9 @@ router.get('/', (req, res) => {
 // find one category by its `id` value
 // be sure to include its associated Products
 router.get('/:id', (req, res) => {
-  Category.findByPk(req.params.id)
+  Category.findByPk(req.params.id, {
+    include: Product,
+  })
     .then((categoryData) => {
       res.json(categoryData);
     });
@@ -47,7 +49,21 @@ router.put('/:id', (req, res) => {
 
 // delete a category by its `id` value
 router.delete('/:id', (req, res) => {
-// similar to put route, use .destroy command
+  Category.destroy(req.body, {
+    where: {
+      id: req.params.id
+    }
+  }).then(deletecategory => {
+    if (!deletecategory) {
+      res.status(404).json({ message: 'This category does no exist!' });
+      return;
+    }
+    res.json(deletecategory);
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json(err);
+  });
 });
 
 module.exports = router;

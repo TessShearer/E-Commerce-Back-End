@@ -3,16 +3,28 @@ const { Product, Category, Tag, ProductTag } = require('../../models');
 
 // The `/api/products` endpoint
 
-// get all products
+// get all products  
+// find all products
+// be sure to include its associated Category and Tag data
 router.get('/', (req, res) => {
-  // find all products
-  // be sure to include its associated Category and Tag data
+  Product.findAll({
+    include: Category, Tag,
+  })
+    .then((productData) => {
+      res.json(productData);
+    })
 });
 
 // get one product
+// find a single product by its `id`
+// be sure to include its associated Category and Tag data
 router.get('/:id', (req, res) => {
-  // find a single product by its `id`
-  // be sure to include its associated Category and Tag data
+  Product.findByPk(req.params.id, {
+    include: Category, Tag,
+  })
+    .then((productData) => {
+      res.json(productData);
+    });
 });
 
 // create new product
@@ -94,5 +106,3 @@ router.delete('/:id', (req, res) => {
 });
 
 module.exports = router;
-
-// USE include instead of using where to combine tables together

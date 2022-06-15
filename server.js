@@ -14,5 +14,3 @@ app.use(routes);
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}!`);
 });
-
-// I didn't validate that values are decimal/numeric in my schema...need to find a way to do that
